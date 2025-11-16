@@ -1,116 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CPU Scheduling Simulator</title>
-
-  <style>
-      body {
-          font-family: Arial;
-          margin: 0;
-          background: #0f0f0f;
-          color: #fff;
-      }
-
-      header {
-          padding: 40px;
-          text-align: center;
-          background: linear-gradient(90deg, #00c6ff, #0072ff);
-      }
-
-      h1 {
-          margin: 0;
-          font-size: 40px;
-          font-weight: bold;
-      }
-
-      .container {
-          width: 90%;
-          max-width: 900px;
-          margin: 40px auto;
-      }
-
-      .card {
-          background: #1e1e1e;
-          padding: 20px;
-          border-radius: 10px;
-          margin-bottom: 20px;
-          box-shadow: 0px 0px 10px #000;
-      }
-
-      .card h2 {
-          color: #00e676;
-      }
-
-      a.button {
-          display: inline-block;
-          padding: 10px 20px;
-          background: #0072ff;
-          color: white;
-          border-radius: 5px;
-          text-decoration: none;
-          margin-top: 10px;
-      }
-
-      a.button:hover {
-          background: #0057cc;
-      }
-
-      footer {
-          text-align: center;
-          padding: 20px;
-          color: #777;
-          margin-top: 40px;
-      }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPU Scheduling Simulator</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
 
 <header>
-  <h1>CPU Scheduling Simulator</h1>
-  <p>A Python-based Operating Systems project</p>
+    <h1>CPU Scheduling Simulator</h1>
+    <p>Interactive Web-based CPU Scheduling Visualizer</p>
 </header>
 
 <div class="container">
 
-  <div class="card">
-      <h2>About the Project</h2>
-      <p>
-         This project simulates major CPU scheduling algorithms such as FCFS, SJF, SRTF, 
-         Priority (preemptive & non-preemptive), and Round Robin.
-      </p>
-  </div>
+    <div class="card">
+        <h2>1. Select Scheduling Algorithm</h2>
+        <select id="algorithm">
+            <option value="fcfs">FCFS</option>
+            <option value="sjf_np">SJF (Non-Preemptive)</option>
+            <option value="srtf">SJF (Preemptive - SRTF)</option>
+            <option value="priority_np">Priority (Non-Preemptive)</option>
+            <option value="priority_p">Priority (Preemptive)</option>
+            <option value="rr">Round Robin</option>
+        </select>
 
-  <div class="card">
-      <h2>Download the Program</h2>
-      <p>You can download the Python version here:</p>
-      <a class="button" href="cpu_scheduling_simulator.py">Download CPU Simulator</a>
-  </div>
+        <div id="quantumBox" style="display:none;">
+            <label>Time Quantum:</label>
+            <input type="number" id="quantum" value="2">
+        </div>
+    </div>
 
-  <div class="card">
-      <h2>View the GitHub Repository</h2>
-      <a class="button" href="https://github.com/yashkumarsharma2004/cpu_scheduling_simulator">Open Repository</a>
-  </div>
+    <div class="card">
+        <h2>2. Add Processes</h2>
+        <div class="form-row">
+            <input type="number" id="arrival" placeholder="Arrival Time">
+            <input type="number" id="burst" placeholder="Burst Time">
+            <input type="number" id="priority" placeholder="Priority (Lower = Higher)">
+            <button onclick="addProcess()">Add</button>
+        </div>
 
-  <div class="card">
-      <h2>Project Features</h2>
-      <ul>
-          <li>FCFS Scheduling</li>
-          <li>SJF (Preemptive & Non-preemptive)</li>
-          <li>Priority Scheduling</li>
-          <li>Round Robin with custom quantum</li>
-          <li>Waiting Time, Turnaround Time, Completion Time</li>
-          <li>ASCII Gantt Chart output</li>
-      </ul>
-  </div>
+        <table id="processTable">
+            <tr>
+                <th>PID</th>
+                <th>Arrival</th>
+                <th>Burst</th>
+                <th>Priority</th>
+            </tr>
+        </table>
+    </div>
+
+    <div class="card">
+        <button class="run-btn" onclick="runSimulation()">Run Simulation</button>
+    </div>
+
+    <div class="card">
+        <h2>3. Output</h2>
+        <table id="resultTable">
+            <tr>
+                <th>PID</th>
+                <th>CT</th>
+                <th>TAT</th>
+                <th>WT</th>
+            </tr>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>4. Gantt Chart</h2>
+        <canvas id="ganttCanvas" width="900" height="150"></canvas>
+    </div>
 
 </div>
 
-<footer>
-  © 2025 CPU Scheduling Simulator — Created by Yash Kumar Sharma
-</footer>
+<script src="scheduler.js"></script>
+<script src="ui.js"></script>
 
 </body>
 </html>
+
